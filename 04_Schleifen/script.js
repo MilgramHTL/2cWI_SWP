@@ -15,9 +15,17 @@ for(let fourthCount = 1234; fourthCount > 1206; fourthCount--){
 }
 
 let name = "Lukas";
-for(let countName = 0; countName >= 8; countName++){
+for(let countName = 0; countName < 8; countName++){
     console.log(name);
 }
 
+for(let firstten = 0; firstten < 11; firstten++){
+    console.log(firstten);
+}
 
+console.log(name);
+
+for(let secondten = 10; secondten >-1; secondten--){
+    console.log(secondten);
+}
 
