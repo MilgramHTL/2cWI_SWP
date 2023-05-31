@@ -1,8 +1,23 @@
+import { createInterface } from "readline";
+
 let field = [
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0]
   ];
+
+  let readline = createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  let readLineAsync = () => {
+    return new Promise((resolve) => {
+      readline.question("", (userRes) => {
+        resolve(userRes);
+      });
+    });
+  };
   
   let currentPlayer = 1;
   let isGameOver = false;
@@ -64,39 +79,52 @@ let field = [
       console.log(output);
     }
   }
-  
+
   function announceWinner(player) {
     console.log(`Spieler ${player} hat gewonnen!`);
+    readline.close();
   }
   
   function announceDraw() {
-    console.log("Unentschieden!");
+  console.log("Unentschieden!");
+  readline.close();
   }
   
-  while (checkWinner(field) !== 1 && checkWinner(field) !== 2) {
-    printField();
-    console.log("Player", currentPlayer, "Reihe:  ");
-    let input_row = prompt();
-    console.log("Player", currentPlayer, "Spalte:  ");
-    let input_column = prompt();
-    field[input_row][input_column] = currentPlayer;
-    console.log("");
-  
-    if (checkWinner(field) === 1) {
-      console.log("Player 1 hat gewonnen!");
+  async function playGame() {
+    while (checkWinner(field) !== 1 && checkWinner(field) !== 2) {
       printField();
-      break;
+      console.log("Player", currentPlayer, "Reihe:  ");
+      let input_row = await readLineAsync();
+      console.log("Player", currentPlayer, "Spalte:  ");
+      let input_column = await readLineAsync();
+      while (isNaN(input_column) || input_column < 0 || input_column > 2 || field[input_row][input_column] !== 0) {
+        console.log("Ungültige Eingabe. Bitte wählen Sie eine Spalte von 0 bis 2, die noch nicht belegt ist: ");
+        input_column = await readLineAsync();
+      }
+      field[input_row][input_column] = currentPlayer;
+      console.log("");
+  
+      if (checkWinner(field) === 1) {
+        console.log("Player 1 hat gewonnen!");
+        printField();
+        break;
+      }
+  
+      if (checkWinner(field) === 2) {
+        console.log("Player 2 hat gewonnen!");
+        printField();
+        break;
+      }
+  
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
     }
   
-    if (checkWinner(field) === 2) {
-      console.log("Player 2 hat gewonnen!");
+    if (checkWinner(field) === null) {
+      console.log("Unentschieden!");
       printField();
-      break;
     }
   
-    currentPlayer = currentPlayer === 1 ? 2 : 1;
+    readline.close();
   }
   
-  if (checkWinner(field) === null) {
-    console.log("Unentschieden!");
-  }
+  playGame();
