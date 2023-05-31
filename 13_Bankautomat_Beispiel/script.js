@@ -47,7 +47,7 @@ let main = async () => {
     }
   }
 
-  rl.close();
+  readline.close();
 };
 
 main();
