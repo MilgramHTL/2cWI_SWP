@@ -1,29 +1,31 @@
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
+import { createInterface } from "readline";
+
+let readline = createInterface({
+  input: process.stdin,
+  output: process.stdout
 });
-    
-    const readLineAsync = () => {
-    return new Promise((resolve) => {
-    rl.question("", (userRes) => {
-    resolve(userRes);
-        });
+
+let readLineAsync = () => {
+  return new Promise((resolve) => {
+    readline.question("", (userRes) => {
+      resolve(userRes);
     });
+  });
 };
-    
-    let running = true;
-    let balance = 0;
-    
-    console.log("Selektieren Sie die gewünschte Funktion:");
-    console.log(" 1. Einzahlen");
-    console.log(" 2. Abheben");
-    console.log(" 3. Kontostand");
-    console.log(" 4. Ende");
-    
-    const main = async () => {
-    while (running) {
+
+let running = true;
+let balance = 0;
+
+console.log("Selektieren Sie die gewünschte Funktion:");
+console.log(" 1. Einzahlen");
+console.log(" 2. Abheben");
+console.log(" 3. Kontostand");
+console.log(" 4. Ende");
+
+let main = async () => {
+  while (running) {
     let action = await readLineAsync();
-    
+
     if (action === "1") {
       console.log("Geben Sie den Betrag ein, den Sie einzahlen möchten:");
       let deposit = await readLineAsync();
@@ -43,9 +45,9 @@ const rl = readline.createInterface({
       console.log("Maschine stoppt!");
       running = false;
     }
-    }
-    
-    rl.close();
-    };
-    
-    main();
+  }
+
+  rl.close();
+};
+
+main();
