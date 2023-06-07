@@ -1,11 +1,11 @@
 import { createInterface } from "readline";
 
-const readline = createInterface({
+let readline = createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-const readLineAsync = () => {
+let readLineAsync = () => {
   return new Promise((resolve) => {   
     readline.question("", (userRes) => {
       resolve(userRes);
